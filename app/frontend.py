@@ -61,7 +61,16 @@ elif page == "Tasks":
         st.subheader("Add New Task")
         title = st.text_input("Title *", help="Enter the task title")
         description = st.text_area("Description", help="Enter task description")
-        deadline = st.datetime_input("Deadline", value=None, help="Set task deadline")
+        deadline_date = st.date_input("Deadline Date", value=None, help="Set task deadline date")
+        deadline_time = st.time_input("Deadline Time", value=None, help="Set task deadline time")
+        
+        # Combine date and time into a single datetime object if both are provided
+        deadline = None
+        if deadline_date is not None:
+            if deadline_time is not None:
+                deadline = datetime.combine(deadline_date, deadline_time)
+            else:
+                deadline = datetime.combine(deadline_date, datetime.min.time())
         priority = st.slider("Priority (1-5)", 1, 5, 3, help="Higher number means higher priority")
         important = st.checkbox("Important", help="Mark as important in Eisenhower matrix")
         estimated_duration = st.number_input("Estimated Duration (minutes)", min_value=5, max_value=480, value=30, help="Time needed to complete this task")
