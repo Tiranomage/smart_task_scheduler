@@ -91,7 +91,12 @@ elif page == "Tasks":
                 )
                 
                 try:
-                    response = requests.post(f"{API_BASE_URL}/tasks/", json=task_data.model_dump())
+                    # Convert datetime objects to ISO format strings for JSON serialization
+                    task_dict = task_data.model_dump()
+                    if task_dict.get('deadline'):
+                        task_dict['deadline'] = task_dict['deadline'].isoformat()
+                    
+                    response = requests.post(f"{API_BASE_URL}/tasks/", json=task_dict)
                     if response.status_code == 200:
                         st.success("Task created successfully!")
                         st.rerun()
@@ -141,6 +146,10 @@ elif page == "Tasks":
                         if task['status'] == 'pending':
                             if st.button(f"Start##{task['id']}"):
                                 update_data = {'status': 'in_progress'}
+                                # Convert datetime fields to ISO format strings
+                                for key, value in update_data.items():
+                                    if isinstance(value, datetime):
+                                        update_data[key] = value.isoformat()
                                 resp = requests.put(f"{API_BASE_URL}/tasks/{task['id']}", json=update_data)
                                 if resp.status_code == 200:
                                     st.rerun()
@@ -149,6 +158,10 @@ elif page == "Tasks":
                         elif task['status'] == 'in_progress':
                             if st.button(f"Complete##{task['id']}"):
                                 update_data = {'status': 'completed'}
+                                # Convert datetime fields to ISO format strings
+                                for key, value in update_data.items():
+                                    if isinstance(value, datetime):
+                                        update_data[key] = value.isoformat()
                                 resp = requests.put(f"{API_BASE_URL}/tasks/{task['id']}", json=update_data)
                                 if resp.status_code == 200:
                                     st.rerun()

@@ -19,8 +19,18 @@ class TaskBase(BaseModel):
     estimated_duration: int = 30  # in minutes
     source: str = "manual"
 
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
 class TaskCreate(TaskBase):
-    pass
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
@@ -31,6 +41,12 @@ class TaskUpdate(BaseModel):
     important: Optional[bool] = None
     status: Optional[TaskStatus] = None
     estimated_duration: Optional[int] = None
+
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 class TaskResponse(TaskBase):
     id: int
@@ -44,6 +60,9 @@ class TaskResponse(TaskBase):
 
     class Config:
         from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 class DailyScheduleItem(BaseModel):
     task_id: int
@@ -52,9 +71,21 @@ class DailyScheduleItem(BaseModel):
     end_time: datetime
     duration: int  # in minutes
 
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
 class DailySchedule(BaseModel):
     date: str
     schedule: List[DailyScheduleItem]
+
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 class ProductivityReport(BaseModel):
     period: str
@@ -64,10 +95,22 @@ class ProductivityReport(BaseModel):
     insights: List[str]
     recommendations: List[str]
 
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
+
 class GoogleCalendarCredentials(BaseModel):
     access_token: str
     refresh_token: str
     calendar_id: str = "primary"
+
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
 
 class PomodoroTimer(BaseModel):
     work_duration: int = 25  # in minutes
@@ -78,3 +121,9 @@ class PomodoroTimer(BaseModel):
     remaining_time: int = 0  # in seconds
     is_working: bool = True
     is_active: bool = False
+
+    class Config:
+        from_attributes = True
+        json_encoders = {
+            datetime: lambda v: v.isoformat()
+        }
