@@ -3,8 +3,14 @@ import requests
 import plotly.express as px
 import pandas as pd
 from datetime import datetime, timedelta
-from .utils.pomodoro_timer import pomodoro_manager
-from .schemas import TaskCreate, TaskUpdate, TaskStatus
+
+# Import using absolute paths since Streamlit runs the script directly
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+from app.utils.pomodoro_timer import pomodoro_manager
+from app.schemas import TaskCreate, TaskUpdate, TaskStatus
 
 # Configuration
 st.set_page_config(page_title="Smart Task Scheduler", layout="wide")
