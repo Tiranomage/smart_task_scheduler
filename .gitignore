@@ -1,0 +1,27 @@
+```
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.py~
+*.py.class
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Dependencies
+venv/
+.venv/
+.env
+.env.local
+*.env.*
+
+# Logs
+*.log
+
+# Docker
+.dockerenv
+```
