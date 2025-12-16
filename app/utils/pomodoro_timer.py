@@ -2,7 +2,13 @@ import time
 import threading
 from datetime import datetime, timedelta
 from typing import Callable, Optional
-from ..schemas import PomodoroTimer
+
+# Import using absolute paths since Streamlit runs the script directly
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.schemas import PomodoroTimer
 
 class PomodoroTimerManager:
     def __init__(self):
